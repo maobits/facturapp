@@ -1,22 +1,28 @@
 // app/index.tsx
 
-// Importamos los componentes básicos de React Native
-import { View, Text } from "react-native";
+// Importamos View desde React Native
+import { View } from "react-native";
 
-// Importamos Link desde expo-router para navegar entre pantallas
+// Importamos Text desde react-native-paper para aplicar el tema global
+import { Text } from "react-native-paper";
+
+// Importamos Link desde expo-router para navegación
 import { Link } from "expo-router";
 
-// Creamos y exportamos una función llamada HomeScreen
+// Pantalla principal
 export default function HomeScreen() {
   return (
-    // View es el contenedor principal de la pantalla, con estilo centrado
     <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      {/* Texto grande que dice "Pantalla Principal" */}
-      <Text style={{ fontSize: 24, marginBottom: 20 }}>Pantalla Principal</Text>
+      {/* Texto estilizado con fuente y tamaño desde el tema */}
+      <Text variant="headlineLarge" style={{ marginBottom: 20 }}>
+        Pantalla Principal
+      </Text>
 
-      {/* Enlace que lleva a la ruta /about */}
-      <Link href="/about" style={{ fontSize: 18, color: "#007AFF" }}>
-        Ir a /about →
+      {/* Enlace de navegación con estilo base */}
+      <Link href="/about">
+        <Text variant="bodyLarge" style={{ color: "#007AFF" }}>
+          Ir a /about →
+        </Text>
       </Link>
     </View>
   );

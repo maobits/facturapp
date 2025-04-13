@@ -1,24 +1,23 @@
 // app/_layout.tsx
 
-// Importamos Slot para renderizar dinámicamente las rutas hijas
+// 🎯 Slot es el componente de expo-router que renderiza la pantalla activa
 import { Slot } from "expo-router";
 
-// Importamos SafeAreaView para respetar las zonas seguras del dispositivo
+// 📦 SafeAreaView asegura que el contenido respete los bordes seguros del dispositivo
 import { SafeAreaView } from "react-native";
 
-// Importamos el proveedor de temas de react-native-paper
-import { PaperProvider } from "react-native-paper";
+// 🌐 Importamos nuestro ThemeProvider personalizado (modo oscuro/claro y fuentes)
+import { ThemeProvider } from "../src/context/ThemeProvider"; // Usa "../src/context/ThemeProvider" si no tienes alias
 
-// Definimos y exportamos el layout principal de la app
+// 🧱 Layout global que envuelve toda la app
 export default function Layout() {
   return (
-    // Proveedor del tema de Material Design (react-native-paper)
-    <PaperProvider>
-      {/* Contenedor que respeta el área segura del dispositivo */}
+    // 🌍 Envolvemos todo en nuestro ThemeProvider (incluye PaperProvider por dentro)
+    <ThemeProvider>
+      {/* 🛟 Contenedor que evita superposiciones con la barra de estado */}
       <SafeAreaView style={{ flex: 1 }}>
-        {/* Slot representa y muestra la pantalla activa según la ruta */}
         <Slot />
       </SafeAreaView>
-    </PaperProvider>
+    </ThemeProvider>
   );
 }
