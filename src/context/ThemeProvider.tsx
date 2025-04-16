@@ -1,4 +1,3 @@
-// src/context/ThemeProvider.tsx
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import {
   MD3LightTheme,
@@ -124,15 +123,17 @@ export const fontSizes = {
   extraLarge: 26,
 };
 
-// 🎨 Tema claro personalizado
+// 🎨 Tema claro personalizado (colores del logo)
 const LightTheme = {
   ...MD3LightTheme,
   colors: {
     ...MD3LightTheme.colors,
-    primary: "#007AFF",
-    secondary: "#FF6F61",
-    b: "#FFFFFF",
-    text: "#22ackground2222",
+    primary: "#FFA726", // Naranja principal del ícono
+    secondary: "#2979FF", // Azul de textos principales
+    background: "#FFFFFF", // Fondo blanco limpio
+    surface: "#F5F5F5", // Superficies suaves
+    text: "#222222", // Texto oscuro legible
+    error: "#EF5350", // Rojo coral suave para errores
   },
   fonts: configureFonts({ config: fontConfig }),
 };
@@ -142,10 +143,12 @@ const DarkTheme = {
   ...MD3DarkTheme,
   colors: {
     ...MD3DarkTheme.colors,
-    primary: "#0A84FF",
-    secondary: "#FF6F61",
-    background: "#1E1E1E",
+    primary: "#FFA726",
+    secondary: "#2979FF",
+    background: "#121212",
+    surface: "#1E1E1E",
     text: "#FFFFFF",
+    error: "#EF5350",
   },
   fonts: configureFonts({ config: fontConfig }),
 };
@@ -162,9 +165,7 @@ export const useThemeContext = () => useContext(ThemeContext);
 // 🧱 Proveedor que aplica el tema a toda la app
 export function ThemeProvider({ children }: { children: ReactNode }) {
   const [isDark, setIsDark] = useState(false);
-
   const toggleTheme = () => setIsDark((prev) => !prev);
-
   const theme = isDark ? DarkTheme : LightTheme;
 
   return (
