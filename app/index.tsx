@@ -45,7 +45,23 @@ export default function HomeScreen() {
           FacturApp, todo está al alcance de tu mano 📲.
         </Text>
 
-        {/* Acciones */}
+        {/* Botón para crear factura */}
+        {user && (
+          <Button
+            mode="contained"
+            onPress={() => router.push("/invoice/create")}
+            style={[styles.button, { backgroundColor: colors.primary }]}
+            labelStyle={{
+              fontSize: 16,
+              color: colors.onPrimary,
+              fontFamily: "Montserrat-Bold",
+            }}
+          >
+            Crear Factura
+          </Button>
+        )}
+
+        {/* Acciones de sesión */}
         {user ? (
           <Button
             mode="outlined"
@@ -93,6 +109,7 @@ export default function HomeScreen() {
   );
 }
 
+// 🎨 Estilos
 const styles = StyleSheet.create({
   gradient: {
     flex: 1,
