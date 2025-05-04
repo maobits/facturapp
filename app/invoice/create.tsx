@@ -13,6 +13,7 @@ import { Text, TextInput, Button, Menu, useTheme } from "react-native-paper";
 import { LinearGradient } from "expo-linear-gradient";
 import Invoice from "../../src/components/invoice/Invoice";
 import DateTimePicker from "@react-native-community/datetimepicker";
+import { saveInvoice } from "../../src/services/auth/invoice/invoiceService";
 
 // 🧾 Modelo de un ítem de factura
 export interface InvoiceItem {
@@ -82,7 +83,18 @@ export default function CreateInvoiceScreen() {
       0
     );
 
-  const handleSubmit = () => {
+  const resetForm = () => {
+    setClient("");
+    setIdType("");
+    setIdNumber("");
+    setEmail("");
+    setPhone("");
+    setCurrency("USD");
+    setDate(new Date());
+    setItems([{ description: "", quantity: "", price: "" }]);
+  };
+
+  const handleSubmit = async () => {
     if (!client) {
       Alert.alert("❗ Nombre requerido", "Ingresa el nombre del cliente.");
       clientRef.current?.focus();
@@ -114,17 +126,38 @@ export default function CreateInvoiceScreen() {
     const incomplete = items.some(
       (item) => !item.description || !item.quantity || !item.price
     );
-
     if (incomplete) {
       Alert.alert("❗ Error", "Todos los ítems deben estar completos.");
       return;
     }
 
-    setSubmitting(true);
-    setTimeout(() => {
+    const payload = {
+      client_name: client,
+      id_type: idType,
+      id_number: idNumber,
+      email,
+      phone,
+      date: date.toISOString().split("T")[0],
+      currency,
+      total: calculateTotal(),
+      items,
+    };
+
+    try {
+      setSubmitting(true);
+      const response = await saveInvoice(payload);
+
+      if (response.success) {
+        Alert.alert("✅ Factura guardada con éxito");
+        resetForm(); // ← Limpia el formulario
+      } else {
+        Alert.alert("❌ Error", response.message || "No se pudo guardar.");
+      }
+    } catch (error) {
+      Alert.alert("❌ Error", "Fallo la conexión con el servidor.");
+    } finally {
       setSubmitting(false);
-      Alert.alert("✅ Factura creada", "¡Tu factura fue guardada con éxito!");
-    }, 1500);
+    }
   };
   return (
     <LinearGradient
